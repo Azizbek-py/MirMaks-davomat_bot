@@ -1,0 +1,25 @@
+{
+    "users": {
+        "5143376517": {
+            "first_name": "Azizbek",
+            "user_id": 5143376517,
+            "role": "Admin",
+            "stage": "start",
+            "index": 6533785827,
+            "logged_in": true,
+            "position": "Admin",
+            "active": true,
+            "name": "Azizbek"
+        },
+        "6533785827": {
+            "first_name": "Azizbek",
+            "user_id": 6533785827,
+            "role": "Employee",
+            "stage": "start",
+            "index": 0,
+            "logged_in": true,
+            "position": "Doxod menejeri",
+            "active": true
+        }
+    }
+}
