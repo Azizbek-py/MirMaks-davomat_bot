@@ -150,7 +150,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     }
                 )
             msg = await update.message.reply_text(
-                    text=USER_start_mes
+                    text=USER_start_mes,
+                    parse_mode=ParseMode.HTML
                     )
         else:
             if user["role"] == "Employee":
@@ -162,7 +163,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     reply_markup=InlineKeyboardMarkup(WebApp_start_but(user_id)))
             else:
                 msg = await update.message.reply_text(
-                    text=USER_start_mes
+                    text=USER_start_mes,
+                    parse_mode=ParseMode.HTML
                     )
     
     await log_deleter(type=["start", "messages"], user_id=user_id, context=context)
