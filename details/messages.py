@@ -13,18 +13,33 @@ get_employe_position_mes = "Xodimning lavozimini kiriting:"
 
 
 USER_start_mes = """
-Assalomu alaykum! Botga xush kelibsiz. 
-Siz MirMaks asosiy ofis xodimlari ro'yxatiga kiritilmagansiz. 
-Iltimos, adminstrator bilan bog'laning!
+<b>🔐 MirMaks Davomat Tizimi</b>
 
-Adminstrator: @BROAZIK
-Telefon: +998930756607
+Assalomu alaykum! 👋
+
+Siz hozircha <b>MirMaks asosiy ofis xodimlari</b> ro'yxatiga kiritilmagansiz.
+
+Botdan foydalanish uchun administrator tomonidan tasdiqlanishingiz kerak.
+
+━━━━━━━━━━━━━━
+👨‍💼 <b>Administrator:</b> @BROAZIK  
+📞 <b>Telefon:</b> <code>+998930756607</code>
+━━━━━━━━━━━━━━
+
+Iltimos, administrator bilan bog'laning.
 """
+
 EMPLOYEE_start_mes = """
-Assalomu alaykum, <b>{}</b>! 
+<b>✅ MirMaks Davomat Tizimi</b>
 
-Siz MirMaks asosiy ofis xodimlari ro'yxatiga kiritilgansiz.
-Lavozimingiz: <b>{}</b>
+Assalomu alaykum, <b>{}</b>! 👋
 
-Botdan foydalanish uchun "Davomat" tugmasini bosing.
+Siz <b>MirMaks asosiy ofis xodimlari</b> ro'yxatiga muvaffaqiyatli kiritilgansiz.
+
+━━━━━━━━━━━━━━
+💼 <b>Lavozim:</b> {}
+🟢 <b>Holat:</b> Faol xodim
+━━━━━━━━━━━━━━
+
+Botdan foydalanish uchun quyidagi <b>“Davomat”</b> tugmasini bosing.
 """
