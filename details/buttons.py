@@ -6,13 +6,24 @@ ADMIN_start_but = [
     ["Xodim qo'shish", "Xodimni o'chirish"],
 ]
 
-WebApp_start_but = [
-        [
-            InlineKeyboardButton(
-                text="Davomat",
-                web_app=WebAppInfo(
-                    url=WEB_APP_URL
+
+def WebApp_start_but(user_id):
+    url = f"{WEB_APP_URL}?user_id={user_id}"
+
+    result = [[
+                
+                InlineKeyboardButton(
+                    text="Davomatni ko'rish👀",
+                    callback_data="view_attendance"
+                    )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Davomat",
+                    web_app=WebAppInfo(
+                        url=url
+                    )
                 )
-            )
+            ]
         ]
-    ]
+    return result
