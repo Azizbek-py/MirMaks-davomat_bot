@@ -83,7 +83,7 @@ def hr_message():
 
     # 📌 HEADER
     message = (
-        f"🏢 <b>HR DAVOMAT HISOBOTI</b>\n"
+        f"🏢 <b>XODIMLAR DAVOMAT HISOBOTI</b>\n"
         f"📅 Sana: <b>{date}</b>\n\n"
         f"👥 Jami xodimlar: <b>{total}</b>\n"
         f"🟢 Kelganlar: <b>{present}</b>\n"
