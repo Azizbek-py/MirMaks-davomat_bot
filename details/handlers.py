@@ -31,6 +31,76 @@ async def log_adder(type, msg_id, context):
     for m in msg_id:
         context.user_data.setdefault(str(type), []).append(m)
 
+import requests
+from datetime import datetime
+
+
+def hr_message():
+    # 🔗 URL ni o‘zing shu yerga qo‘yasan
+    URL = "https://mirmaks-davomat-server.onrender.com/api/hr/getall"
+
+    res = requests.get(URL, timeout=15)
+    data = res.json()
+
+    if not data.get("success"):
+        return "❌ Ma'lumot olishda xatolik yuz berdi."
+
+    date = data.get("date", "")
+    employees = data.get("data", [])
+    total = data.get("total", len(employees))
+
+    # 📊 counters
+    present = 0
+    absent = 0
+
+    rows = []
+
+    for i, emp in enumerate(employees, start=1):
+
+        name = emp.get("fullname", "Noma'lum")
+        position = emp.get("position", "-")
+        active = emp.get("active", False)
+        came = emp.get("came", False)
+        arrival = emp.get("arrival_time")
+        leave = emp.get("leave_time")
+
+        # STATUS LOGIC
+        if came:
+            status = "🟢 KELGAN"
+            present += 1
+        else:
+            status = "🔴 KELMAGAN"
+            absent += 1
+
+        arrival = arrival if arrival else "-"
+        leave = leave if leave else "-"
+
+        rows.append(
+            f"{i}. {name} | {position}\n"
+            f"   🕒 Kirish: {arrival} | Chiqish: {leave}\n"
+            f"   📌 Holat: {status}\n"
+        )
+
+    # 📌 HEADER
+    message = (
+        f"🏢 <b>HR DAVOMAT HISOBOTI</b>\n"
+        f"📅 Sana: <b>{date}</b>\n\n"
+        f"👥 Jami xodimlar: <b>{total}</b>\n"
+        f"🟢 Kelganlar: <b>{present}</b>\n"
+        f"🔴 Kelmaganlar: <b>{absent}</b>\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━\n\n"
+    )
+
+    message += "\n".join(rows)
+
+    message += (
+        "\n━━━━━━━━━━━━━━━━━━━━━━\n"
+        "📊 Kadrlar bo'limi menejeri: @mirmaks_kadr\n"
+        "⚙️ Dasturchi: @BroAzik\n"
+    )
+
+    return message
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     name = update.effective_user.full_name
@@ -89,7 +159,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 msg = await update.message.reply_text(
                     text=EMPLOYEE_start_mes.format(user["first_name"], user["position"]),
                     parse_mode=ParseMode.HTML,
-                    reply_markup=InlineKeyboardMarkup(WebApp_start_but))
+                    reply_markup=InlineKeyboardMarkup(WebApp_start_but(user_id)))
             else:
                 msg = await update.message.reply_text(
                     text=USER_start_mes
@@ -97,6 +167,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await log_deleter(type=["start", "messages"], user_id=user_id, context=context)
     await log_adder(type="start", msg_id=[update.message.message_id, msg.message_id], context=context)
+
+async def callback_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    user_id = query.from_user.id
+
+    if query.data == "view_attendance":
+        report_message = hr_message()
+        await query.answer()
+        try:
+            await query.edit_message_text(text=report_message, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(WebApp_start_but(user_id)))
+        except:
+            await query.answer(text="Boshqa ma'lumotlar topilmadi.")
 
 async def text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
