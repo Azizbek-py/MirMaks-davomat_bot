@@ -11,6 +11,7 @@ from settings import *
 from details.database.db import *
 from .messages import *
 from .buttons import *
+from .database.db import _async_sync_delete, _async_sync_add, _async_sync_update
 
 async def log_deleter(type, user_id, context):
     messages = []
@@ -216,8 +217,13 @@ async def text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if stage == "get_id_delete":
             if messaage.isdigit():
                 try:
-                    delete(table="users", user_id=int(messaage))
-                    msg = await update.message.reply_text(text=f"{messaage} ID raqamli xodim muvaffaqiyatli o'chirildi.")
+                    try:
+                        await _async_sync_delete(int(messaage))
+                        delete(table="users", user_id=int(messaage))
+                        msg = await update.message.reply_text(text=f"{messaage} ID raqamli xodim muvaffaqiyatli o'chirildi.\nBackenddan ham o'chirildi.")
+                    except:
+                        delete(table="users", user_id=int(messaage))
+                        msg = await update.message.reply_text(text=f"{messaage} ID raqamli xodim muvaffaqiyatli o'chirildi.\nBackenddan o'chirishda xatolik yuz berdi.")
                 except:
                     msg = await update.message.reply_text(text=f"{messaage} ID raqamli xodim topilmadi.")
             else:
