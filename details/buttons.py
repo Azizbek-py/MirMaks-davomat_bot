@@ -20,9 +20,8 @@ def WebApp_start_but(user_id):
             [
                 InlineKeyboardButton(
                     text="Davomat",
-                    web_app=WebAppInfo(
                         url=url
-                    )
+                    
                 )
             ]
         ]
